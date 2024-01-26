@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+:root {
+    --game-width: 600px;
+    --game-height: 600px;
+    --grid-size: 40;
+    --cell-size: calc(var(--game-width) / var(--grid-size));
+}
+
+#gameContainer {
+    width: var(--game-width);
+    height: var(--game-height);
+    display: grid;
+    grid-template-columns: repeat(var(--grid-size), 1fr);
+    grid-template-rows: repeat(var(--grid-size), 1fr);
+    background-color: #f0f0f0;
+}
+
+.button {
+    width: 100px;
+    height: 50px;
+    margin: 10px auto;
+}
+
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    box-sizing: border-box;
+    border: 1px solid lightgrey;
+}
+
+.active {
+    background-color: black;
+}
+
+.container {
+    text-align: center;
+}
