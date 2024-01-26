@@ -39,6 +39,10 @@ body {
     background-color: black;
 }
 
+.has-lived {
+    background-color: silver;
+}
+
 .container {
     text-align: center;
 }

@@ -2,22 +2,25 @@ let gameInterval;
 let paused = true;
 const birthRule = [3]; // Cells are born if they have exactly 3 neighbors
 const survivalRule = [2, 3]; // Cells survive with 2 or 3 neighbors, else they die
-const gridSize = 40; // Where the grid is n x n
+
+const gridSize = 40; // Where grid = gridSize x gridSize
 let grid = new Array(gridSize).fill(null).map(() => new Array(gridSize).fill(false));
-let currentSpeed = 200; // Initial speed
+
+let currentSpeed = 200;
 const speeds = [200, 400, 2000]; // Speeds in milliseconds (normal, 0.5x, 0.1x)
-let speedIndex = 0; // Index to keep track of the current speed
+let speedIndex = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     createGrid();
+
     document.getElementById('startButton').addEventListener('click', startGame);
     document.getElementById('resetButton').addEventListener('click', resetGame);
     document.getElementById('speedButton').addEventListener('click', changeSpeed);
 
-
     const gameContainer = document.getElementById('gameContainer');
     let mouseIsDown = false;
 
+    // Allow for holding click to add cells
     gameContainer.addEventListener('mousedown', event => {
         event.preventDefault();
         if (event.target.classList.contains('cell')) {
@@ -26,12 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Listen for mouseup on the entire document
+    // Stop adding cells if the cursor leaves the game container
     document.addEventListener('mouseup', () => {
         mouseIsDown = false;
     });
 
-    // Listen for mouseleave on the game container
     gameContainer.addEventListener('mouseleave', () => {
         mouseIsDown = false;
     });
@@ -44,11 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function resetGame() {
-    clearInterval(gameInterval); // Stop the game
+    clearInterval(gameInterval); // Stops the game
     grid = grid.map(row => row.map(() => false)); // Reset all cells to false
-    updateGridDisplay(); // Update the grid display
-    document.getElementById('startButton').textContent = 'Start'; // Reset the start button text
-    paused = true; // Set the game state to paused
+    const gameContainer = document.getElementById('gameContainer');
+    updateGridDisplay();
+
+    for (const cell of gameContainer.children) {
+        cell.classList.remove('has-lived');
+    }
+
+    document.getElementById('startButton').textContent = 'Start';
+    paused = true;
 }
 
 function createGrid() {
@@ -73,18 +81,18 @@ function handleCellClick(event) {
         const x = Math.floor(cellIndex / gridSize);
         const y = cellIndex % gridSize;
 
-        grid[x][y] = !grid[x][y]; // Toggle the cell state in the grid array
+        grid[x][y] = !grid[x][y]; // Toggle cell state
         event.target.classList.toggle('active');
         updateGridDisplay();
     }
 }
 
 function changeSpeed() {
-    speedIndex = (speedIndex + 1) % speeds.length; // Cycle through the speeds
+    speedIndex = (speedIndex + 1) % speeds.length;
     currentSpeed = speeds[speedIndex];
 
     if (!paused) {
-        clearInterval(gameInterval); // Restart the interval with the new speed
+        clearInterval(gameInterval);
         gameInterval = setInterval(nextGeneration, currentSpeed);
     }
 
@@ -175,25 +183,32 @@ function updateGridDisplay() {
             const cellIndex = x * gridSize + y;
             const cell = gameContainer.children[cellIndex];
 
+            cell.style.backgroundColor = '';
+
             if (grid[x][y]) {
+                // Cell is alive
                 cell.classList.add('active');
-                setColorBasedOnIndex(cell, cellIndex, gridSize);
+                cell.classList.remove('has-lived');
+
+                // Apply gradient color only to active cells that are not 'has-lived'
+                if (!cell.classList.contains('has-lived')) {
+                    setColorBasedOnIndex(cell, cellIndex, gridSize);
+                }
             } else {
+                // Cell is not alive
+                if (cell.classList.contains('active')) {
+                    cell.classList.add('has-lived');
+                }
                 cell.classList.remove('active');
-                cell.style.backgroundColor = '#f0f0f0';
             }
         }
     }
 }
 
 function setColorBasedOnIndex(cell, cellIndex, gridSize) {
-    // Total number of cells
     const totalCells = gridSize * gridSize;
 
     // Calculate a value between 0 and 255 based on the cell's position
-    // For a simple gradient, we'll just use the red value as an example
     let redValue = Math.floor((cellIndex / totalCells) * 255);
-
-    // Set the cell's background color
     cell.style.backgroundColor = `rgb(${redValue}, 100, 150)`;
 }
