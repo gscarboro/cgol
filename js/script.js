@@ -81,8 +81,15 @@ function handleCellClick(event) {
         const x = Math.floor(cellIndex / gridSize);
         const y = cellIndex % gridSize;
 
-        grid[x][y] = !grid[x][y]; // Toggle cell state
-        event.target.classList.toggle('active');
+        grid[x][y] = !grid[x][y];
+
+        if (paused) {
+            const neighbors = countLiveNeighbors(x, y);
+            if (!survivalRule.includes(neighbors) && grid[x][y]) {
+                event.target.classList.add('has-lived');
+            }
+        }
+
         updateGridDisplay();
     }
 }
@@ -113,7 +120,6 @@ function changeSpeed() {
 
     document.getElementById('speedButton').textContent = buttonText;
 }
-
 
 function startGame() {
     const startButton = document.getElementById('startButton');
