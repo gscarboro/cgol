@@ -1,10 +1,12 @@
 let gameInterval;
 let paused = true;
+let started = false;
 const birthRule = [3]; // Cells are born if they have exactly 3 neighbors
 const survivalRule = [2, 3]; // Cells survive with 2 or 3 neighbors, else they die
 
-const gridSize = 40; // Where grid = gridSize x gridSize
+const gridSize = 100; // Where grid = gridSize x gridSize
 let grid = new Array(gridSize).fill(null).map(() => new Array(gridSize).fill(false));
+const totalCells = gridSize * gridSize;
 
 let currentSpeed = 200;
 const speeds = [200, 400, 2000]; // Speeds in milliseconds (normal, 0.5x, 0.1x)
@@ -57,11 +59,12 @@ function resetGame() {
 
     document.getElementById('startButton').textContent = 'Start';
     paused = true;
+    started = false;
 }
 
 function createGrid() {
     const gameContainer = document.getElementById('gameContainer');
-    for (let i = 0; i < 1600; i++) {
+    for (let i = 0; i < totalCells; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
         gameContainer.appendChild(cell);
@@ -83,7 +86,7 @@ function handleCellClick(event) {
 
         grid[x][y] = !grid[x][y];
 
-        if (paused) {
+        if (paused && started) {
             const neighbors = countLiveNeighbors(x, y);
             if (!survivalRule.includes(neighbors) && grid[x][y]) {
                 event.target.classList.add('has-lived');
@@ -123,6 +126,7 @@ function changeSpeed() {
 
 function startGame() {
     const startButton = document.getElementById('startButton');
+    started = true;
 
     if (paused) {
         startButton.textContent = 'Pause';
@@ -172,7 +176,6 @@ function countLiveNeighbors(x, y) {
             const nx = x + i;
             const ny = y + j;
 
-            // Check boundaries
             if (nx >= 0 && nx < gridSize && ny >= 0 && ny < gridSize) {
                 count += grid[nx][ny] ? 1 : 0;
             }
@@ -196,13 +199,12 @@ function updateGridDisplay() {
                 cell.classList.add('active');
                 cell.classList.remove('has-lived');
 
-                // Apply gradient color only to active cells that are not 'has-lived'
                 if (!cell.classList.contains('has-lived')) {
                     setColorBasedOnIndex(cell, cellIndex, gridSize);
                 }
             } else {
                 // Cell is not alive
-                if (cell.classList.contains('active')) {
+                if (cell.classList.contains('active') && started) {
                     cell.classList.add('has-lived');
                 }
                 cell.classList.remove('active');
@@ -212,9 +214,18 @@ function updateGridDisplay() {
 }
 
 function setColorBasedOnIndex(cell, cellIndex, gridSize) {
-    const totalCells = gridSize * gridSize;
+    let x = cellIndex % gridSize;
+    let y = Math.floor(cellIndex / gridSize);
 
-    // Calculate a value between 0 and 255 based on the cell's position
-    let redValue = Math.floor((cellIndex / totalCells) * 255);
-    cell.style.backgroundColor = `rgb(${redValue}, 100, 150)`;
+    /*
+    let redValue = Math.floor((Math.sin(Math.PI * x / gridSize) + 1) / 2 * 255);
+    let greenValue = Math.floor((Math.sin(Math.PI * y / gridSize) + 1) / 2 * 255);
+    let blueValue = Math.floor((Math.sin(Math.PI * (x + y) / gridSize) + 1) / 2 * 255);
+    */
+
+    let redValue = Math.floor((x / gridSize) * 255);
+    let greenValue = Math.floor((Math.cos(Math.PI * y / gridSize) + 1) / 2 * 255);
+    let blueValue = Math.floor((Math.sin(Math.PI * x / gridSize) + 1) / 2 * 255);
+
+    cell.style.backgroundColor = `rgb(${redValue}, ${greenValue}, ${blueValue})`;
 }
