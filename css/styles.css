@@ -4,7 +4,7 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    background-color: azure;
+    background-color: #e9edc9;
 }
 
 :root {
@@ -20,14 +20,14 @@ body {
     display: grid;
     grid-template-columns: repeat(var(--grid-size), 1fr);
     grid-template-rows: repeat(var(--grid-size), 1fr);
-    background-color: #f0f0f0;
+    background-color: #fefae0;
 }
 
 .button {
     width: 100px;
     height: 50px;
     margin: 10px auto;
-    background-color: aliceblue;
+    background-color: #ccd5ae;
     font-size: 14px;
 }
 
@@ -39,11 +39,25 @@ body {
     margin: 10px;
 }
 
+.toggle {
+    background-color: #f0f0f0;
+    color: black;
+    padding: 10px;
+    border: 1px solid gray;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.toggle.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
 .textBox {
     width: 100px;
     height: 45px;
     margin: 10px auto;
-    background-color: aliceblue;
+    background-color: #ccd5ae;
     font-size: 14px;
 }
 
@@ -60,7 +74,7 @@ body {
 
 .has-lived {
     /*background-color: silver;*/
-    background-color: #f0f0f0;
+    background-color: #fefae0;
 }
 
 

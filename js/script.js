@@ -39,18 +39,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('startButton').addEventListener('click', startGame);
     document.getElementById('resetButton').addEventListener('click', resetGame);
-    document.getElementById('speedButton').addEventListener('click', changeSpeed);
 
-    document.getElementById('nextSButton').addEventListener('click', function() {
-        sRule = (sRule + 1) % survivalRules.length;
-        survivalRule = survivalRules[sRule];
-        document.getElementById('sArrayDisplay').innerText = JSON.stringify(survivalRules[sRule]);
+    document.querySelectorAll('.toggle').forEach(button => {
+        button.addEventListener('click', function() {
+            this.classList.toggle('active');
+        });
     });
 
-    document.getElementById('nextBButton').addEventListener('click', function() {
-        bRule = (bRule + 1) % birthRules.length;
-        birthRule = birthRules[bRule];
-        document.getElementById('bArrayDisplay').innerText = JSON.stringify(birthRules[bRule]);
+    document.getElementById('submitSelections').addEventListener('click', function() {
+        // Update survivalRule array
+        var selectedSNumbers = [];
+        document.querySelectorAll('#toggleSButtons .toggle.active').forEach(activeButton => {
+            selectedSNumbers.push(parseInt(activeButton.textContent));
+        });
+        survivalRule = selectedSNumbers;
+
+        // Update birthRule array
+        var selectedBNumbers = [];
+        document.querySelectorAll('#toggleBButtons .toggle.active').forEach(activeButton => {
+            selectedBNumbers.push(parseInt(activeButton.textContent));
+        });
+        birthRule = selectedBNumbers;
+        changeSpeed();
     });
 
     const gameContainer = document.getElementById('gameContainer');
@@ -132,30 +142,20 @@ function handleCellClick(event) {
 }
 
 function changeSpeed() {
-    speedIndex = (speedIndex + 1) % speeds.length;
-    currentSpeed = speeds[speedIndex];
+    let speedPercentage = parseInt(document.getElementById('speedInput').value);
+    if (isNaN(speedPercentage) || speedPercentage <= 0) {
+        alert("Please enter a valid speed percentage (greater than 0).");
+        return;
+    }
+
+    const baseSpeed = 200; // Base speed in milliseconds (higher = slower)
+    currentSpeed = baseSpeed / (speedPercentage / 100);
 
     if (!paused) {
         clearInterval(gameInterval);
         gameInterval = setInterval(nextGeneration, currentSpeed);
     }
 
-    let buttonText;
-    switch (currentSpeed) {
-        case 200:
-            buttonText = '100% Speed';
-            break;
-        case 400:
-            buttonText = '50% Speed';
-            break;
-        case 2000:
-            buttonText = '10% Speed';
-            break;
-        default:
-            buttonText = 'Change Speed';
-    }
-
-    document.getElementById('speedDisplay').textContent = buttonText;
 }
 
 function startGame() {
