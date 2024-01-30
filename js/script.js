@@ -2,28 +2,7 @@ let gameInterval;
 let paused = true;
 let started = false;
 
-var birthRules = [
-    [3],
-    [4],
-    [3, 4],
-    [3, 4, 5],
-    [1, 2],
-    [1, 2, 3],
-    [1, 2, 3, 4],
-    [5, 6, 7, 8]
-]
-var bRule = 0;
 let birthRule = [3];
-
-var survivalRules = [
-    [2, 3],
-    [2, 3, 4],
-    [1, 2, 3, 4],
-    [1, 2],
-    [1, 8],
-    [1, 2, 7, 8]
-];
-var sRule = 0;
 let survivalRule = [2, 3];
 
 const gridSize = 100; // Where grid = gridSize x gridSize
@@ -31,8 +10,6 @@ let grid = new Array(gridSize).fill(null).map(() => new Array(gridSize).fill(fal
 const totalCells = gridSize * gridSize;
 
 let currentSpeed = 200;
-const speeds = [200, 400, 2000]; // Speeds in milliseconds (normal, 0.5x, 0.1x)
-let speedIndex = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     createGrid();
@@ -144,7 +121,6 @@ function handleCellClick(event) {
 function changeSpeed() {
     let speedPercentage = parseInt(document.getElementById('speedInput').value);
     if (isNaN(speedPercentage) || speedPercentage <= 0) {
-        alert("Please enter a valid speed percentage (greater than 0).");
         return;
     }
 
