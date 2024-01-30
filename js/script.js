@@ -1,8 +1,30 @@
 let gameInterval;
 let paused = true;
 let started = false;
-const birthRule = [3]; // Cells are born if they have exactly 3 neighbors
-const survivalRule = [2, 3]; // Cells survive with 2 or 3 neighbors, else they die
+
+var birthRules = [
+    [3],
+    [4],
+    [3, 4],
+    [3, 4, 5],
+    [1, 2],
+    [1, 2, 3],
+    [1, 2, 3, 4],
+    [5, 6, 7, 8]
+]
+var bRule = 0;
+let birthRule = [3];
+
+var survivalRules = [
+    [2, 3],
+    [2, 3, 4],
+    [1, 2, 3, 4],
+    [1, 2],
+    [1, 8],
+    [1, 2, 7, 8]
+];
+var sRule = 0;
+let survivalRule = [2, 3];
 
 const gridSize = 100; // Where grid = gridSize x gridSize
 let grid = new Array(gridSize).fill(null).map(() => new Array(gridSize).fill(false));
@@ -18,6 +40,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('startButton').addEventListener('click', startGame);
     document.getElementById('resetButton').addEventListener('click', resetGame);
     document.getElementById('speedButton').addEventListener('click', changeSpeed);
+
+    document.getElementById('nextSButton').addEventListener('click', function() {
+        sRule = (sRule + 1) % survivalRules.length;
+        survivalRule = survivalRules[sRule];
+        document.getElementById('sArrayDisplay').innerText = JSON.stringify(survivalRules[sRule]);
+    });
+
+    document.getElementById('nextBButton').addEventListener('click', function() {
+        bRule = (bRule + 1) % birthRules.length;
+        birthRule = birthRules[bRule];
+        document.getElementById('bArrayDisplay').innerText = JSON.stringify(birthRules[bRule]);
+    });
 
     const gameContainer = document.getElementById('gameContainer');
     let mouseIsDown = false;
@@ -108,20 +142,20 @@ function changeSpeed() {
 
     let buttonText;
     switch (currentSpeed) {
-        case 200: // Currently at 100% speed, next will be 50%
+        case 200:
+            buttonText = '100% Speed';
+            break;
+        case 400:
             buttonText = '50% Speed';
             break;
-        case 400: // Currently at 50% speed, next will be 10%
+        case 2000:
             buttonText = '10% Speed';
-            break;
-        case 2000: // Currently at 10% speed, next will be 100%
-            buttonText = '100% Speed';
             break;
         default:
             buttonText = 'Change Speed';
     }
 
-    document.getElementById('speedButton').textContent = buttonText;
+    document.getElementById('speedDisplay').textContent = buttonText;
 }
 
 function startGame() {

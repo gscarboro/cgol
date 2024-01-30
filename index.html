@@ -8,11 +8,18 @@
     <script src="js/script.js"></script>
 </head>
     <body>
-        <div class="container">
-            <div id="gameContainer"></div>
+        <div class="button-container">
             <button id="startButton" class="button">Start</button>
             <button id="resetButton" class="button">Reset</button>
-            <button id="speedButton" class="button">50% Speed</button>
+            <div id="speedDisplay" style="display: inline-block;">100% Speed</div>
+            <button id="speedButton" class="button">Next Speed</button>
+            <div id="sArrayDisplay" style="display: inline-block;">[2, 3]</div>
+            <button id="nextSButton" class="button">Next Survival Rule</button>
+            <div id="bArrayDisplay" style="display: inline-block;">[3]</div>
+            <button id="nextBButton" class="button">Next Birth Rule</button>
         </div>
+
+        <div id="gameContainer"></div>
+       
     </body>
 </html>
