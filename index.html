@@ -2,42 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Conway's Game of Life</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/script.js"></script>
 </head>
     <body>
-        <div class="button-container">
-            <button id="startButton" class="button">Start</button>
-            <button id="resetButton" class="button">Reset</button>
-            <div>Speed (Percentage):</div>
+        <div class="container button-container">
+            <button id="startButton" class="btn btn-lg">Start</button>
+            <button id="resetButton" class="btn btn-lg">Reset</button>
+            <p style="margin-top: 12px; margin-bottom: 8px;">Speed:</p>
             <input class="textbox" type="text" id="speedInput" placeholder="100">
-            <div id="toggleSButtons">
-                <div>Survival Rule Selection:</div>
-                <button class="toggle" id="sbtn0">0</button>
-                <button class="toggle" id="sbtn1">1</button>
-                <button class="toggle active" id="sbtn2">2</button>
-                <button class="toggle active" id="sbtn3">3</button>
-                <button class="toggle" id="sbtn4">4</button>
-                <button class="toggle" id="sbtn5">5</button>
-                <button class="toggle" id="sbtn6">6</button>
-                <button class="toggle" id="sbtn7">7</button>
-                <button class="toggle" id="sbtn8">8</button>
+            <div class="btn-group" id="toggleSButtons">
+                <p style="margin-top: 12px; margin-bottom: 8px;">Survival Rule Selection:</p>
+                <button class="btn toggle" id="sbtn0">0</button>
+                <button class="btn toggle" id="sbtn1">1</button>
+                <button class="btn toggle active" id="sbtn2">2</button>
+                <button class="btn toggle active" id="sbtn3">3</button>
+                <button class="btn toggle" id="sbtn4">4</button>
+                <button class="btn toggle" id="sbtn5">5</button>
+                <button class="btn toggle" id="sbtn6">6</button>
+                <button class="btn toggle" id="sbtn7">7</button>
+                <button class="btn toggle" id="sbtn8">8</button>
             </div>
-            <div id="toggleBButtons">
-                <div>Birth Rule Selection:</div>
-                <button class="toggle" id="bbtn0">0</button>
-                <button class="toggle" id="bbtn1">1</button>
-                <button class="toggle" id="bbtn2">2</button>
-                <button class="toggle active" id="bbtn3">3</button>
-                <button class="toggle" id="bbtn4">4</button>
-                <button class="toggle" id="bbtn5">5</button>
-                <button class="toggle" id="bbtn6">6</button>
-                <button class="toggle" id="bbtn7">7</button>
-                <button class="toggle" id="bbtn8">8</button>
+            <div class="btn-group" id="toggleBButtons">
+                <p style="margin-top: 12px; margin-bottom: 8px;">Birth Rule Selection:</p>
+                <button class="btn toggle" id="bbtn0">0</button>
+                <button class="btn toggle" id="bbtn1">1</button>
+                <button class="btn toggle" id="bbtn2">2</button>
+                <button class="btn toggle active" id="bbtn3">3</button>
+                <button class="btn toggle" id="bbtn4">4</button>
+                <button class="btn toggle" id="bbtn5">5</button>
+                <button class="btn toggle" id="bbtn6">6</button>
+                <button class="btn toggle" id="bbtn7">7</button>
+                <button class="btn toggle" id="bbtn8">8</button>
             </div>
-            <button class="button" id="submitSelections">Submit</button>
+            <button id="submitSelections" class="btn btn-lg">Submit</button>
         </div>
 
         <div id="gameContainer"></div>

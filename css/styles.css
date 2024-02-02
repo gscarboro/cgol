@@ -1,10 +1,11 @@
-body {
+body, html {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
     background-color: #e9edc9;
+    width: 100%;
 }
 
 :root {
@@ -23,12 +24,15 @@ body {
     background-color: #fefae0;
 }
 
-.button {
+.btn {
+    background-color: #faedcd;
+    border: 1px solid gray;
+}
+
+.btn-lg {
     width: 100px;
     height: 50px;
     margin: 10px auto;
-    background-color: #faedcd;
-    font-size: 14px;
 }
 
 .button-container {
@@ -37,6 +41,11 @@ body {
     align-items: center;
     text-align: center;
     margin: 10px;
+    width: 25%;
+}
+
+.btn-group .btn {
+    border-radius: 0;
 }
 
 .toggle {
@@ -44,7 +53,6 @@ body {
     color: black;
     padding: 10px;
     border: 1px solid gray;
-    margin: 5px;
     cursor: pointer;
 }
 
